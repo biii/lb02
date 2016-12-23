@@ -19,6 +19,7 @@ import (
 	"net/url"
 	"bytes"
 	"strings"
+	"os"
 )
 
 var key string

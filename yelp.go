@@ -9,7 +9,7 @@ import (
 //	"net/url"
 	"os"
 //	"strconv"
-//	"strings"
+	"strings"
 	"time"
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
@@ -42,8 +42,47 @@ func yelp_init() {
 }
 
 func yelp_parse(bot *linebot.Client, token string, text string) {
+	s := strings.Split(text)
+	if len(s) == 1 {
+	}
+	else if len(s) >= 2 {
+		yelp_food_addr(bot, token, s[0], s[1])
+	}
+}
+
+func yelp_food_addr(bot *linebot.Client, token string, food string, addr string) {	
 	var err error
-	if _, err = bot.ReplyMessage(token, linebot.NewTextMessage(text)).Do(); err != nil {
-					log.Print(err)
-				}
+	
+	// create a new yelp client with the auth keys
+	client := yelp.New(o, nil)
+	
+	// make a simple query for food and location
+	results, err := client.DoSimpleSearch(food, addr)
+	if err != nil {
+		log.Println(err)
+		_, err = bot.SendText(token, "查無資料！\n請重新輸入\n\n吃吃 牛肉麵;台北市通化街")
+	}
+
+	for j := 0; j < 3; j++ {
+		i := 0
+		if results.Total >= 20 {
+			i = rand.Intn(20)
+		} else if results.Total >= 10 {
+			i = rand.Intn(10)
+		} else if results.Total > j {
+			i = j
+		} else if results.Total <= j && results.Total != 0 {
+			_, err = bot.SendText([]string{content.From}, "已無更多資料！")
+			break
+		}
+		urlOrig := UrlShortener{}
+		urlOrig.short(results.Businesses[i].MobileURL)
+		address := strings.Join(results.Businesses[i].Location.DisplayAddress, ",")
+		var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
+
+		_, err = bot.SendImage(token, largeImageURL, largeImageURL)
+		_, err = bot.SendText(token, "店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)
+		_, err = bot.SendLocation(token, results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))	
+		}
+	}
 }

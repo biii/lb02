@@ -34,8 +34,7 @@ type Translation struct {
 	DetectedSourceLanguage string
 }
 
-func translate_init()
-{
+func translate_init() {
 	key = os.Getenv("GOOGLEAPIKEY")
 }
 

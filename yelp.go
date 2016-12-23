@@ -42,7 +42,6 @@ func yelp_init() {
 
 func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage, food string) {
 	var err error
-//	var msgs []linebot.Message
 	
 	// create a new yelp client with the auth keys
 	client := yelp.New(o, nil)
@@ -50,6 +49,12 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 	if loc == nil {
 		// make a simple query for food and location
 		results, err := client.DoSimpleSearch(food, "台北市通化街")
+		if err != nil {
+			log.Println(err)
+			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！")).Do()
+		} else {
+			yelp_parse_result(bot, token, results)
+		}
 	} else {
 		// Build an advanced set of search criteria that include
 		// general options, and coordinate options.
@@ -65,11 +70,17 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 
 		// Perform the search using the search options
 		results, err := client.DoSearch(s)
+		if err != nil {
+			log.Println(err)
+			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！")).Do()
+		} else {
+			yelp_parse_result(bot, token, results)
+		}
 	}
-	if err != nil {
-		log.Println(err)
-		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！\n請重新輸入\n\n吃吃 牛肉麵;台北市通化街")).Do()
-	}
+}
+
+func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchResult) {
+//	var msgs []linebot.Message
 
 	for j := 0; j < 3; j++ {
 		i := 0

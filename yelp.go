@@ -114,7 +114,7 @@ func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchRes
 	}
 	
 	if outmsg.String() != "" {
-		_, err = bot.ReplyMessage(token, .NewTextMessage(outmsg.String())).Do()
+		_, err = bot.ReplyMessage(token, linebot.NewTextMessage(outmsg.String())).Do()
 	}
 	if err != nil {
 		log.Println(err)

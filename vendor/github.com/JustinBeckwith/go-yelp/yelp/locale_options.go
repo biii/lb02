@@ -1,5 +1,9 @@
 package yelp
 
+import (
+	"errors"
+)
+
 // LocaleOptions provide additional search options that enable returning results
 // based on a given country or locale.
 type LocaleOptions struct {
@@ -18,5 +22,10 @@ func (o *LocaleOptions) getParameters() (params map[string]string, err error) {
 	if o.lang != "" {
 		params["lang"] = o.lang
 	}
+	
+	if o.lang == "" {
+		return params, errors.New("gg")
+	}	
+	
 	return params, nil
 }

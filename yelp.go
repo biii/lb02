@@ -13,12 +13,11 @@ import (
 	"time"
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
-//	"github.com/guregu/null"
+	"github.com/guregu/null"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 var o *yelp.AuthOptions
-var food = make(map[string]string)
 
 type UrlShortener struct {
 	ShortUrl    string
@@ -41,24 +40,33 @@ func yelp_init() {
 	}
 }
 
-func yelp_parse(bot *linebot.Client, token string, text string) {
-	s := strings.Split(text, ",")
-	if len(s) == 1 {
-		yelp_food_addr(bot, token, s[0], "台北市通化街")
-	} else if len(s) >= 2 {
-		yelp_food_addr(bot, token, s[0], s[1])
-	}
-}
-
-func yelp_food_addr(bot *linebot.Client, token string, food string, addr string) {	
+func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage, food string) {
 	var err error
+	var result SearchResult
 //	var msgs []linebot.Message
 	
 	// create a new yelp client with the auth keys
 	client := yelp.New(o, nil)
 	
-	// make a simple query for food and location
-	results, err := client.DoSimpleSearch(food, addr)
+	if loc == nil {
+		// make a simple query for food and location
+		results, err := client.DoSimpleSearch(food, "台北市通化街")
+	} else {
+		// Build an advanced set of search criteria that include
+		// general options, and coordinate options.
+		s := yelp.SearchOptions{
+			GeneralOptions: &yelp.GeneralOptions{
+				Term: food,
+			},
+			CoordinateOptions: &yelp.CoordinateOptions{
+				Latitude:  null.FloatFrom(loc.Latitude),
+				Longitude: null.FloatFrom(loc.Longitude),
+			},
+		}
+
+		// Perform the search using the search options
+		results, err := client.DoSearch(s)
+	}
 	if err != nil {
 		log.Println(err)
 		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！\n請重新輸入\n\n吃吃 牛肉麵;台北市通化街")).Do()

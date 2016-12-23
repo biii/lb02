@@ -26,7 +26,7 @@ import (
 )
 
 var bot *linebot.Client
-var locdb = make(map[string]*linebot.LocationMessage)
+var locmap = make(map[string]*linebot.LocationMessage)
 
 func main() {
 	var err error
@@ -74,7 +74,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
 						
 					case strings.HasPrefix(message.Text, "吃吃"):
-						yelp_parse(bot, event.ReplyToken, strings.TrimLeft(message.Text, "吃吃"))
+						yelp_parse(bot, event.ReplyToken, locmap[event.ReplyToken], strings.TrimLeft(message.Text, "吃吃"))
 						continue
 					default:
 						continue
@@ -84,7 +84,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Print(err)
 				}
 			case *linebot.LocationMessage:
-				locdb[event.ReplyToken] = message
+				locmap[event.ReplyToken] = message
 			}
 		}
 	}

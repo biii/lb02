@@ -49,7 +49,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 	
 	if loc == nil {
 		// make a simple query for food and location
-		results, err := client.DoSimpleSearch(food, "台北市通化街")
+		results, err := client.DoSimpleSearch(food, "台北市大安區")
 		if err == nil {
 			log.Println("loc nil")
 			yelp_parse_result(bot, token, results)
@@ -70,7 +70,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 		// Perform the search using the search options
 		results, err := client.DoSearch(s)
 		if err == nil {
-			log.Println("loc:")
+			log.Println(fmt.Sprintf("loc:(%f, %f)", loc.Latitude, loc.Longitude))
 			yelp_parse_result(bot, token, results)
 		}
 	}
@@ -103,7 +103,7 @@ func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchRes
 		address := strings.Join(results.Businesses[i].Location.DisplayAddress, ",")
 		//var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
 		
-		outmsg.WriteString("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n地址："+address+"\n更多資訊："+urlOrig.ShortUrl)
+		outmsg.WriteString("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n地址："+address+"\n更多資訊："+urlOrig.ShortUrl+"\n")
 
 //		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL), linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl), linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude)) ).Do()
 //		msgs = append(msgs, linebot.NewImageMessage(largeImageURL, largeImageURL))

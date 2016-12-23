@@ -26,7 +26,7 @@ import (
 )
 
 var bot *linebot.Client
-var locdb = make(map[string]linebot.LocationMessage)
+var locdb = make(map[string]*linebot.LocationMessage)
 
 func main() {
 	var err error

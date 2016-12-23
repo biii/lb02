@@ -1,14 +1,14 @@
 package main
 
 import (
-//	"fmt"
-//	"io/ioutil"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
-//	"net/http"
-//	"net/url"
+	"net/http"
+	"net/url"
 	"os"
-//	"strconv"
+	"strconv"
 	"strings"
 	"time"
 
@@ -42,7 +42,7 @@ func yelp_init() {
 }
 
 func yelp_parse(bot *linebot.Client, token string, text string) {
-	s := strings.Split(text)
+	s := strings.Split(text, ",")
 	if len(s) == 1 {
 		yelp_food_addr(bot, token, s[0], "台北市通化街")
 	} else if len(s) >= 2 {
@@ -72,7 +72,7 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		} else if results.Total > j {
 			i = j
 		} else if results.Total <= j && results.Total != 0 {
-			_, err = bot.SendText([]string{content.From}, "已無更多資料！")
+			_, err = bot.SendText(token, "已無更多資料！")
 			break
 		}
 		urlOrig := UrlShortener{}
@@ -80,8 +80,32 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		address := strings.Join(results.Businesses[i].Location.DisplayAddress, ",")
 		var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
 
-		_, err = bot.SendImage(token, largeImageURL, largeImageURL)
-		_, err = bot.SendText(token, "店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)
-		_, err = bot.SendLocation(token, results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))	
+		
+		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL))
+		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl))
+		_, err = bot.ReplyMessage(token, linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))
 	}
+}
+
+func getResponseData(urlOrig string) string {
+	response, err := http.Get(urlOrig)
+	if err != nil {
+		log.Println(err)
+	}
+	defer response.Body.Close()
+	contents, err := ioutil.ReadAll(response.Body)
+	return string(contents)
+}
+
+func isGdShortener(urlOrig string) (string, string) {
+	escapedUrl := url.QueryEscape(urlOrig)
+	isGdUrl := fmt.Sprintf("http://is.gd/create.php?url=%s&format=simple", escapedUrl)
+	return getResponseData(isGdUrl), urlOrig
+}
+
+func (u *UrlShortener) short(urlOrig string) *UrlShortener {
+	shortUrl, originalUrl := isGdShortener(urlOrig)
+	u.ShortUrl = shortUrl
+	u.OriginalUrl = originalUrl
+	return u
 }

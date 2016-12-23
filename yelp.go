@@ -62,7 +62,6 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 				Term: food,
 			},
 			LocaleOptions: &yelp.LocaleOptions{
-				cc: "TW",
 				lang: "zh",
 			},
 			CoordinateOptions: &yelp.CoordinateOptions{

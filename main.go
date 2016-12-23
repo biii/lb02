@@ -26,13 +26,15 @@ import (
 )
 
 var bot *linebot.Client
-var gkey string
 
 func main() {
 	var err error
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
-	gkey = os.Getenv("GOOGLEAPIKEY")
 	log.Println("Bot:", bot, " err:", err)
+	
+	translate_init()
+	yelp_init()
+	
 	http.HandleFunc("/callback", callbackHandler)
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
@@ -68,8 +70,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						outmsg.WriteString(GetPPAPText())
 
 					case strings.HasPrefix(message.Text, "翻翻"):
-						outmsg.WriteString(GetTransText(gkey, strings.TrimLeft(message.Text, "翻翻")))
-
+						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
+						
+					case strings.HasPrefix(message.Text, "吃吃"):
+						yelp_parse(bot, event.ReplyToken, strings.TrimLeft(message.Text, "吃吃"))
+						continue
 					default:
 						continue
 				}

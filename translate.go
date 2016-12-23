@@ -21,6 +21,8 @@ import (
 	"strings"
 )
 
+var key string
+
 type Response struct {
 	Data struct {
 		Translations []Translation
@@ -32,7 +34,12 @@ type Translation struct {
 	DetectedSourceLanguage string
 }
 
-func GetTransText(key string, text string) string {
+func translate_init()
+{
+	key = os.Getenv("GOOGLEAPIKEY")
+}
+
+func GetTransText(text string) string {
 	var target = "en"
 	var intext = text
 	switch {
@@ -51,10 +58,10 @@ func GetTransText(key string, text string) string {
 		case strings.HasPrefix(text, "英"):
 			intext = strings.TrimLeft(text, "英")
 	}
-	return DoTrans(key, target, intext);
+	return DoTrans(target, intext);
 }
 
-func DoTrans(key string, target string, text string) string {
+func DoTrans(target string, text string) string {
 	var outmsg bytes.Buffer
 	
 	v := make(url.Values)

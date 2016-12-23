@@ -74,7 +74,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
 						
 					case strings.HasPrefix(message.Text, "吃吃"):
-						yelp_parse(bot, event.ReplyToken, locmap[event.ReplyToken], strings.TrimLeft(message.Text, "吃吃"))
+						yelp_parse(bot, event.ReplyToken, locmap[GetID(event.Source)], strings.TrimLeft(message.Text, "吃吃"))
 						continue
 					default:
 						continue
@@ -84,10 +84,22 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Print(err)
 				}
 			case *linebot.LocationMessage:
-				locmap[event.ReplyToken] = message
+				locmap[GetID(event.Source)] = message
 			}
 		}
 	}
+}
+
+func GetID(source *linebot.EventSource) string {
+	switch source.Type {
+	case *linbot.EventSourceTypeUser:
+		return source.UserID
+	case *linbot.EventSourceTypeGroup:
+		return source.GroupID
+	case *linbot.EventSourceTypeRoom:
+		return source.RoomID
+	}
+	return source.UserID
 }
 
 func GetHandsonText(inText string) string {

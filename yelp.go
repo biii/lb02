@@ -41,8 +41,7 @@ func yelp_init() {
 	}
 }
 
-func yelp_parse(bot *linebot.Client, token string, text string)
-{
+func yelp_parse(bot *linebot.Client, token string, text string) {
 	if _, err = bot.ReplyMessage(token, linebot.NewTextMessage(outmsg.String())).Do(); err != nil {
 					log.Print(err)
 				}

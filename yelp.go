@@ -44,6 +44,7 @@ func yelp_init() {
 func yelp_parse(bot *linebot.Client, token string, text string) {
 	s := strings.Split(text)
 	if len(s) == 1 {
+		yelp_food_addr(bot, token, s[0], "台北市通化街")
 	}
 	else if len(s) >= 2 {
 		yelp_food_addr(bot, token, s[0], s[1])
@@ -83,6 +84,5 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		_, err = bot.SendImage(token, largeImageURL, largeImageURL)
 		_, err = bot.SendText(token, "店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)
 		_, err = bot.SendLocation(token, results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))	
-		}
 	}
 }

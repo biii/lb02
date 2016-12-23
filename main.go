@@ -92,11 +92,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetID(source *linebot.EventSource) string {
 	switch source.Type {
-	case linbot.EventSourceTypeUser:
+	case linebot.EventSourceTypeUser:
 		return source.UserID
-	case linbot.EventSourceTypeGroup:
+	case linebot.EventSourceTypeGroup:
 		return source.GroupID
-	case linbot.EventSourceTypeRoom:
+	case linebot.EventSourceTypeRoom:
 		return source.RoomID
 	}
 	return source.UserID

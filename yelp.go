@@ -80,6 +80,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 }
 
 func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchResult) {
+	var err error
 //	var msgs []linebot.Message
 
 	for j := 0; j < 3; j++ {

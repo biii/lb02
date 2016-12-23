@@ -52,6 +52,7 @@ func yelp_parse(bot *linebot.Client, token string, text string) {
 
 func yelp_food_addr(bot *linebot.Client, token string, food string, addr string) {	
 	var err error
+	var msgs []linebot.Message
 	
 	// create a new yelp client with the auth keys
 	client := yelp.New(o, nil)
@@ -80,10 +81,16 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		address := strings.Join(results.Businesses[i].Location.DisplayAddress, ",")
 		var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
 
-		
-		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL), linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl), linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))).Do()
+		msgs = append(msgs, linebot.NewImageMessage(largeImageURL, largeImageURL))
+		msgs = append(msgs, linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl))
+		msgs = append(msgs, linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude)))
 //		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL)).Do()
+//		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)).Do()
 //		_, err = bot.ReplyMessage(token, linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))).Do()
+	}
+	
+	if len(msgs) > 0 {
+		_, err = bot.ReplyMessage(token, msgs).Do()
 	}
 }
 

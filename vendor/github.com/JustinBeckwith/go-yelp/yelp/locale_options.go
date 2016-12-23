@@ -1,14 +1,10 @@
 package yelp
 
-import (
-	"errors"
-)
-
 // LocaleOptions provide additional search options that enable returning results
 // based on a given country or locale.
 type LocaleOptions struct {
 	cc   string // ISO 3166-1 alpha-2 country code. Default country to use when parsing the location field. United States = US, Canada = CA, United Kingdom = GB (not UK).
-	lang string // ISO 639 language code (default=en). Reviews written in the specified language will be shown.
+	lang2 string // ISO 639 language code (default=en). Reviews written in the specified language will be shown.
 }
 
 // getParameters will reflect over the values of the given
@@ -19,13 +15,8 @@ func (o *LocaleOptions) getParameters() (params map[string]string, err error) {
 	if o.cc != "" {
 		params["cc"] = o.cc
 	}
-	if o.lang != "" {
-		params["lang"] = o.lang
+	if o.lang2 != "" {
+		params["lang"] = o.lang2
 	}
-	
-	if o.lang == "" {
-		return params, errors.New("gg")
-	}	
-	
 	return params, nil
 }

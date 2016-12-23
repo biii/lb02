@@ -60,7 +60,7 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 	results, err := client.DoSimpleSearch(food, addr)
 	if err != nil {
 		log.Println(err)
-		_, err = bot.SendText(token, "查無資料！\n請重新輸入\n\n吃吃 牛肉麵;台北市通化街")
+		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！\n請重新輸入\n\n吃吃 牛肉麵;台北市通化街")).Do()
 	}
 
 	for j := 0; j < 3; j++ {
@@ -72,7 +72,7 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		} else if results.Total > j {
 			i = j
 		} else if results.Total <= j && results.Total != 0 {
-			_, err = bot.SendText(token, "已無更多資料！")
+			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("已無更多資料！").Do()
 			break
 		}
 		urlOrig := UrlShortener{}
@@ -81,9 +81,9 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
 
 		
-		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL))
-		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl))
-		_, err = bot.ReplyMessage(token, linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude)))
+		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL)).Do()
+		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)).Do()
+		_, err = bot.ReplyMessage(token, linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))).Do()
 	}
 }
 

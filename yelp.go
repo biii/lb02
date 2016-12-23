@@ -45,8 +45,7 @@ func yelp_parse(bot *linebot.Client, token string, text string) {
 	s := strings.Split(text)
 	if len(s) == 1 {
 		yelp_food_addr(bot, token, s[0], "台北市通化街")
-	}
-	else if len(s) >= 2 {
+	} else if len(s) >= 2 {
 		yelp_food_addr(bot, token, s[0], s[1])
 	}
 }

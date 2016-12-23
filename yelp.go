@@ -50,6 +50,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 		// make a simple query for food and location
 		results, err := client.DoSimpleSearch(food, "台北市通化街")
 		if err == nil {
+			log.Println("loc nil")
 			yelp_parse_result(bot, token, results)
 		}
 	} else {
@@ -68,6 +69,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 		// Perform the search using the search options
 		results, err := client.DoSearch(s)
 		if err == nil {
+			log.Println("loc:")
 			yelp_parse_result(bot, token, results)
 		}
 	}
@@ -81,15 +83,16 @@ func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchRes
 	var err error
 //	var msgs []linebot.Message
 
-	for j := 0; j < 3; j++ {
-		i := 0
-		if results.Total >= 20 {
-			i = rand.Intn(20)
-		} else if results.Total >= 10 {
-			i = rand.Intn(10)
-		} else if results.Total > j {
-			i = j
-		} else if results.Total <= j && results.Total != 0 {
+	for i := 0; i < 3; i++ {
+		//i := 0
+		//if results.Total >= 20 {
+		//	i = rand.Intn(20)
+		//} else if results.Total >= 10 {
+		//	i = rand.Intn(10)
+		//} else if results.Total > j {
+		//	i = j
+		//} else if results.Total <= j && results.Total != 0 {
+		if ( results.Total <= i) {
 			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("已無更多資料！")).Do()
 			break
 		}

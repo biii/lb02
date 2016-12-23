@@ -1,19 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+//	"fmt"
+//	"io/ioutil"
 	"log"
 	"math/rand"
-	"net/http"
-	"net/url"
+//	"net/http"
+//	"net/url"
 	"os"
-	"strconv"
-	"strings"
+//	"strconv"
+//	"strings"
 	"time"
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
-	"github.com/guregu/null"
+//	"github.com/guregu/null"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
@@ -42,7 +42,8 @@ func yelp_init() {
 }
 
 func yelp_parse(bot *linebot.Client, token string, text string) {
-	if _, err = bot.ReplyMessage(token, linebot.NewTextMessage(outmsg.String())).Do(); err != nil {
+	var err error
+	if _, err = bot.ReplyMessage(token, linebot.NewTextMessage(text)).Do(); err != nil {
 					log.Print(err)
 				}
 }

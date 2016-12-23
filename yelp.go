@@ -14,7 +14,7 @@ import (
 	"bytes"
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
-	"github.com/guregu/null"
+	//"github.com/guregu/null"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
@@ -62,8 +62,8 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 				Term: food,
 			},
 			CoordinateOptions: &yelp.CoordinateOptions{
-				Latitude:  null.FloatFrom(loc.Latitude),
-				Longitude: null.FloatFrom(loc.Longitude),
+				Latitude:  yelp.FloatFrom(loc.Latitude),
+				Longitude: yelp.FloatFrom(loc.Longitude),
 			},
 		}
 

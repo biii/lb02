@@ -26,6 +26,7 @@ import (
 )
 
 var bot *linebot.Client
+var locdb = make(map[string]linebot.LocationMessage)
 
 func main() {
 	var err error
@@ -82,6 +83,8 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(outmsg.String())).Do(); err != nil {
 					log.Print(err)
 				}
+			case *linebot.LocationMessage:
+				locdb[event.ReplyToken] = message
 			}
 		}
 	}

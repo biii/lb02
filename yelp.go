@@ -49,10 +49,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 	if loc == nil {
 		// make a simple query for food and location
 		results, err := client.DoSimpleSearch(food, "台北市通化街")
-		if err != nil {
-			log.Println(err)
-			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！")).Do()
-		} else {
+		if err == nil {
 			yelp_parse_result(bot, token, results)
 		}
 	} else {
@@ -70,13 +67,14 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 
 		// Perform the search using the search options
 		results, err := client.DoSearch(s)
-		if err != nil {
-			log.Println(err)
-			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！")).Do()
-		} else {
+		if err == nil {
 			yelp_parse_result(bot, token, results)
 		}
 	}
+	if err != nil {
+		log.Println(err)
+		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("查無資料！")).Do()
+	}	
 }
 
 func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchResult) {
@@ -112,6 +110,9 @@ func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchRes
 //	if len(msgs) > 0 {
 //		_, err = bot.ReplyMessage(token, msgs).Do()
 //	}
+	if err != nil {
+		log.Println(err)
+	}	
 }
 
 func getResponseData(urlOrig string) string {

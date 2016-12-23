@@ -103,7 +103,7 @@ func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchRes
 		address := strings.Join(results.Businesses[i].Location.DisplayAddress, ",")
 		//var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
 		
-		outmsg.WriteString("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)
+		outmsg.WriteString("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n地址："+address+"\n更多資訊："+urlOrig.ShortUrl)
 
 //		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL), linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl), linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude)) ).Do()
 //		msgs = append(msgs, linebot.NewImageMessage(largeImageURL, largeImageURL))

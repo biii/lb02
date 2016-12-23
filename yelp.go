@@ -52,7 +52,7 @@ func yelp_parse(bot *linebot.Client, token string, text string) {
 
 func yelp_food_addr(bot *linebot.Client, token string, food string, addr string) {	
 	var err error
-	var msgs []linebot.Message
+//	var msgs []linebot.Message
 	
 	// create a new yelp client with the auth keys
 	client := yelp.New(o, nil)

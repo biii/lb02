@@ -81,8 +81,8 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		var largeImageURL = strings.Replace(results.Businesses[i].ImageURL, "ms.jpg", "l.jpg", 1)
 
 		
-		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL)).Do()
 		_, err = bot.ReplyMessage(token, linebot.NewTextMessage("店名："+results.Businesses[i].Name+"\n電話："+results.Businesses[i].Phone+"\n評比："+strconv.FormatFloat(float64(results.Businesses[i].Rating), 'f', 1, 64)+"\n更多資訊："+urlOrig.ShortUrl)).Do()
+		_, err = bot.ReplyMessage(token, linebot.NewImageMessage(largeImageURL, largeImageURL)).Do()
 		_, err = bot.ReplyMessage(token, linebot.NewLocationMessage(results.Businesses[i].Name+"\n", address, float64(results.Businesses[i].Location.Coordinate.Latitude), float64(results.Businesses[i].Location.Coordinate.Longitude))).Do()
 	}
 }

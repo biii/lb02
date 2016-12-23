@@ -72,7 +72,7 @@ func yelp_food_addr(bot *linebot.Client, token string, food string, addr string)
 		} else if results.Total > j {
 			i = j
 		} else if results.Total <= j && results.Total != 0 {
-			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("已無更多資料！").Do()
+			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("已無更多資料！")).Do()
 			break
 		}
 		urlOrig := UrlShortener{}

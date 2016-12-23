@@ -43,6 +43,7 @@ func yelp_init() {
 
 func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage, food string) {
 	var err error
+	var lang string = "zh"
 	
 	// create a new yelp client with the auth keys
 	client := yelp.New(o, nil)
@@ -69,7 +70,7 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 				Longitude: null.FloatFrom(loc.Longitude),
 			},
 			LocaleOptions: &yelp.LocaleOptions{
-				lang: "zh",
+				lang: lang,
 			},
 		}
 

@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"bytes"
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
 	"github.com/guregu/null"

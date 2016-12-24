@@ -5,6 +5,7 @@ package yelp
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"net/url"
 
@@ -125,6 +126,9 @@ func (client *Client) makeRequest(area string, id string, params map[string]stri
 	}
 
 	// make the request using the oauth lib
+	or key, value := range params {
+		log.PrintfLn(fmt.Println(key, value))
+	}
 	response, err := c.Get(queryURI.String(), params, token)
 
 	if err != nil {

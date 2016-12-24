@@ -98,7 +98,7 @@ func yelp_parse_result(bot *linebot.Client, token string, results yelp.SearchRes
 		//	i = j
 		//} else if results.Total <= j && results.Total != 0 {
 		if ( results.Total <= i) {
-			_, err = bot.ReplyMessage(token, linebot.NewTextMessage("已無更多資料！")).Do()
+			//_, err = bot.ReplyMessage(token, linebot.NewTextMessage("已無更多資料！")).Do()
 			break
 		}
 		urlOrig := UrlShortener{}

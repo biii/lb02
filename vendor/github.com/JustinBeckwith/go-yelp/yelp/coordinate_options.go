@@ -22,6 +22,7 @@ type CoordinateOptions struct {
 // struct, and provide a type appropriate set of querystring parameters
 // that match the defined values.
 func (o CoordinateOptions) getParameters() (params map[string]string, err error) {
+	params = make(map[string]string)
 	// coordinate requires at least a latitude and longitude - others are option
 	if !o.Latitude.Valid || !o.Longitude.Valid {
 		return nil, errors.New("latitude and longitude are required fields for a coordinate based search")

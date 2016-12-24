@@ -44,7 +44,7 @@ func (o CoordinateOptions) getParameters() (params map[string]string, err error)
 		ll += fmt.Sprintf(",%v", o.AltitudeAccuracy.Float64)
 	}
 
-	
+	return params, nil
 //	return map[string]string{
 //		"ll": ll,
 //	}, nil

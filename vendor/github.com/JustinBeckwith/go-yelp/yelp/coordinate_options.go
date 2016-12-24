@@ -26,13 +26,10 @@ func (o CoordinateOptions) getParameters() (params map[string]string, err error)
 	if !o.Latitude.Valid || !o.Longitude.Valid {
 		return nil, errors.New("latitude and longitude are required fields for a coordinate based search")
 	}
-	if o.cc != "" {
-		params["latitude"] = fmt.Sprintf("%v", o.Latitude.Float64)
-	}
-	if o.lang != "" {
-		params["longitude"] = fmt.Sprintf("%v", o.Longitude.Float64)
-	}
-	
+	params["latitude"] = fmt.Sprintf("%v", o.Latitude.Float64)
+	params["longitude"] = fmt.Sprintf("%v", o.Longitude.Float64)
+	params["locale"] = "zh-TW"
+
 	ll := fmt.Sprintf("%v,%v", o.Latitude.Float64, o.Longitude.Float64)
 	if o.Accuracy.Valid {
 		ll += fmt.Sprintf(",%v", o.Accuracy.Float64)

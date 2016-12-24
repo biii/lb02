@@ -22,14 +22,10 @@ type CoordinateOptions struct {
 // struct, and provide a type appropriate set of querystring parameters
 // that match the defined values.
 func (o CoordinateOptions) getParameters() (params map[string]string, err error) {
-	params = make(map[string]string)
 	// coordinate requires at least a latitude and longitude - others are option
 	if !o.Latitude.Valid || !o.Longitude.Valid {
 		return nil, errors.New("latitude and longitude are required fields for a coordinate based search")
 	}
-	params["latitude"] = fmt.Sprintf("%v", o.Latitude.Float64)
-	params["longitude"] = fmt.Sprintf("%v", o.Longitude.Float64)
-	//params["locale"] = "zh-TW"
 
 	ll := fmt.Sprintf("%v,%v", o.Latitude.Float64, o.Longitude.Float64)
 	if o.Accuracy.Valid {
@@ -42,8 +38,7 @@ func (o CoordinateOptions) getParameters() (params map[string]string, err error)
 		ll += fmt.Sprintf(",%v", o.AltitudeAccuracy.Float64)
 	}
 
-	return params, nil
-//	return map[string]string{
-//		"ll": ll,
-//	}, nil
+	return map[string]string{
+		"ll": ll,
+	}, nil
 }

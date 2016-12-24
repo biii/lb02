@@ -14,7 +14,7 @@ import (
 	"bytes"
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
-	"github.com/guregu/null"
+	//"github.com/guregu/null"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
@@ -61,13 +61,16 @@ func yelp_parse(bot *linebot.Client, token string, loc *linebot.LocationMessage,
 			GeneralOptions: &yelp.GeneralOptions{
 				Term: food,
 			},
+			LocationOptions: &yelp.LocationOptions{
+				Location: loc.Address,
+			},
 			//LocaleOptions: &yelp.LocaleOptions{
 			//	lang: "zh",
 			//},
-			CoordinateOptions: &yelp.CoordinateOptions{
-				Latitude:  null.FloatFrom(loc.Latitude),
-				Longitude: null.FloatFrom(loc.Longitude),
-			},
+			//CoordinateOptions: &yelp.CoordinateOptions{
+			//	Latitude:  null.FloatFrom(loc.Latitude),
+			//	Longitude: null.FloatFrom(loc.Longitude),
+			//},
 		}
 
 		// Perform the search using the search options

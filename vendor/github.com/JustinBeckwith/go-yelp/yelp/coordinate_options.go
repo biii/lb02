@@ -29,7 +29,7 @@ func (o CoordinateOptions) getParameters() (params map[string]string, err error)
 	}
 	params["latitude"] = fmt.Sprintf("%v", o.Latitude.Float64)
 	params["longitude"] = fmt.Sprintf("%v", o.Longitude.Float64)
-	params["locale"] = "zh-TW"
+	//params["locale"] = "zh-TW"
 
 	ll := fmt.Sprintf("%v,%v", o.Latitude.Float64, o.Longitude.Float64)
 	if o.Accuracy.Valid {

@@ -75,11 +75,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					case strings.Compare(message.Text, "123") == 0:
 						outmsg.WriteString(Get123Text())
 
-					case strings.Compare(lowerMsg, "roll") == 0:
-						outmsg.WriteString(GetRandomNum())
+					case strings.HasPrefix(lowerMsg, "roll") == 0:
+						outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "roll")))
 						
-					case strings.Compare(message.Text, "骰骰") == 0:
-						outmsg.WriteString(GetRandomNum())
+					case strings.HasPrefix(message.Text, "骰骰") == 0:
+						outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "骰骰")))
 
 					case strings.HasPrefix(message.Text, "翻翻"):
 						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
@@ -172,8 +172,13 @@ func Get123Text() string {
 	return "木頭人"
 }
 
-func GetRandomNum() string {
+func GetRandomNum(input string) string {
+	input = strings.TrimSpace(input)
+	seed, err := strconv.Atoi(input)
+	if err != nil || seed <= 0 {
+		seed = 100
+	}
 	rand.Seed(time.Now().UnixNano())
-	result := rand.Intn(100) + 1
+	result := rand.Intn(seed) + 1
 	return strconv.Itoa(result)
 }

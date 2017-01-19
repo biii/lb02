@@ -75,10 +75,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					case strings.Compare(message.Text, "123") == 0:
 						outmsg.WriteString(Get123Text())
 
-					case strings.HasPrefix(lowerMsg, "roll") == 0:
+					case strings.HasPrefix(lowerMsg, "roll"):
 						outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "roll")))
 						
-					case strings.HasPrefix(message.Text, "骰骰") == 0:
+					case strings.HasPrefix(message.Text, "骰骰"):
 						outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "骰骰")))
 
 					case strings.HasPrefix(message.Text, "翻翻"):

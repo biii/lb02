@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"math/rand"
 	"time"
+	"strconv"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -171,8 +172,8 @@ func Get123Text() string {
 	return "木頭人"
 }
 
-func GetRandomNum() int {
+func GetRandomNum() string {
 	rand.Seed(time.Now().UnixNano())
 	result := rand.Intn(100) + 1
-	return result
+	return strconv.Itoa(result)
 }

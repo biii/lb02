@@ -59,6 +59,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
 				var outmsg bytes.Buffer
+				string lowerMsg = strings.ToLower(message.Text)
 
 				switch {
 					case strings.Compare(message.Text, "溫馨提醒") == 0:
@@ -73,7 +74,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					case strings.Compare(message.Text, "123") == 0:
 						outmsg.WriteString(Get123Text())
 
-						case strings.HasPrefix(message.Text, "翻翻"):
+					case strings.Compare(message.Text, "roll") == 0:
+						outmsg.WriteString(GetRandomNum())
+
+					case strings.HasPrefix(message.Text, "翻翻"):
 						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
 						
 					case strings.HasPrefix(message.Text, "吃吃"):
@@ -162,4 +166,10 @@ func Get123Text() string {
 		return "機器人"
 	}
 	return "木頭人"
+}
+
+func GetRandomNum() int {
+	rand.Seed(time.Now().UnixNano())
+	result := rand.Intn(100) + 1
+	return result
 }

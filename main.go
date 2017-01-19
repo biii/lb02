@@ -70,7 +70,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					case strings.Compare(message.Text, "PPAP") == 0:
 						outmsg.WriteString(GetPPAPText())
 
-					case strings.HasPrefix(message.Text, "翻翻"):
+					case strings.Compare(message.Text, "123") == 0:
+						outmsg.WriteString(Get123Text())
+
+						case strings.HasPrefix(message.Text, "翻翻"):
 						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
 						
 					case strings.HasPrefix(message.Text, "吃吃"):
@@ -147,4 +150,16 @@ func GetPPAPText() string {
 		return "我是不會接著唱的！"
 	}
 	return "去問 siri 啦"
+}
+
+func Get123Text() string {
+	rand.Seed(time.Now().UnixNano())
+	i := rand.Intn(100)
+	switch i % 5 {
+	case 0:
+		return "不是人"
+	case 1:
+		return "機器人"
+	}
+	return "木頭人"
 }

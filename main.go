@@ -59,7 +59,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
 				var outmsg bytes.Buffer
-				string lowerMsg = strings.ToLower(message.Text)
+				var lowerMsg = strings.ToLower(message.Text)
 
 				switch {
 					case strings.Compare(message.Text, "溫馨提醒") == 0:

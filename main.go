@@ -68,13 +68,16 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					case strings.HasSuffix(message.Text, "麼帥"):
 						outmsg.WriteString(GetHandsonText(message.Text))
 
-					case strings.Compare(message.Text, "PPAP") == 0:
+					case strings.Compare(lowerMsg, "ppap") == 0:
 						outmsg.WriteString(GetPPAPText())
 
 					case strings.Compare(message.Text, "123") == 0:
 						outmsg.WriteString(Get123Text())
 
-					case strings.Compare(message.Text, "roll") == 0:
+					case strings.Compare(lowerMsg, "roll") == 0:
+						outmsg.WriteString(GetRandomNum())
+						
+					case strings.Compare(message.Text, "骰骰") == 0:
 						outmsg.WriteString(GetRandomNum())
 
 					case strings.HasPrefix(message.Text, "翻翻"):

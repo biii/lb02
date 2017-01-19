@@ -87,6 +87,10 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					case strings.HasPrefix(message.Text, "吃吃"):
 						yelp_parse(bot, event.ReplyToken, locmap[GetID(event.Source)], strings.TrimLeft(message.Text, "吃吃"))
 						continue
+						
+					case strings.HasPrefix(message.Text, "問問"):
+						outmsg.WriteString(CompareCheckTokens(message.Text))
+						
 					case strings.Compare(message.Text, "測試") == 0:
 						outmsg.WriteString(message.ID)
 						outmsg.WriteString("\r\n")

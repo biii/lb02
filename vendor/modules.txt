@@ -1,0 +1,16 @@
+# github.com/JustinBeckwith/go-yelp v0.0.0-20160609053333-2228f91f3d15
+## explicit
+github.com/JustinBeckwith/go-yelp/yelp
+# github.com/JustinBeckwith/oauth v0.0.0-20150115054624-a1577bd38702
+## explicit
+github.com/JustinBeckwith/oauth
+# github.com/guregu/null v4.0.0+incompatible
+## explicit
+github.com/guregu/null
+# github.com/line/line-bot-sdk-go v1.0.1-0.20161101060953-b7e1bd128fef
+## explicit
+github.com/line/line-bot-sdk-go/linebot
+# golang.org/x/net v0.0.0-20161109213706-9ef22118a4b2
+## explicit
+golang.org/x/net/context
+golang.org/x/net/context/ctxhttp

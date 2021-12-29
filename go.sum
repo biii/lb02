@@ -1,0 +1,14 @@
+github.com/JustinBeckwith/go-yelp v0.0.0-20160609053333-2228f91f3d15 h1:SIgLdMe6nGqbkRnJo8Nj0JGSy0W2kVKlM3gMkRYLJZ4=
+github.com/JustinBeckwith/go-yelp v0.0.0-20160609053333-2228f91f3d15/go.mod h1:lImVbDjt9CXKLKP8jRTqtGctNCT6XC+x0dr3+XzzzZA=
+github.com/JustinBeckwith/oauth v0.0.0-20150115054624-a1577bd38702 h1:OvtMvJHVNY29WLT8hajE/HaT53cSBlj1Bxxza4sF8VM=
+github.com/JustinBeckwith/oauth v0.0.0-20150115054624-a1577bd38702/go.mod h1:Jxf+o4y3ffwskwlUUv8YFLM6RJ83jBVSfhqEFA0yvXM=
+github.com/guregu/null v4.0.0+incompatible h1:4zw0ckM7ECd6FNNddc3Fu4aty9nTlpkkzH7dPn4/4Gw=
+github.com/guregu/null v4.0.0+incompatible/go.mod h1:ePGpQaN9cw0tj45IR5E5ehMvsFlLlQZAkkOXZurJ3NM=
+github.com/line/line-bot-sdk-go v1.0.1-0.20161101060953-b7e1bd128fef h1:hKKBmDCtPvvBbvRjXTJfTUQ3LKMiPbQaiD2QOmh9XZM=
+github.com/line/line-bot-sdk-go v1.0.1-0.20161101060953-b7e1bd128fef/go.mod h1:0RjLjJEAU/3GIcHkC3av6O4jInAbt25nnZVmOFUgDBg=
+github.com/line/line-bot-sdk-go/v7 v7.11.0 h1:pdJmCVfgwjNxBotb3QbYqKrpo56D2y+S/ObIfvNg3Yw=
+github.com/line/line-bot-sdk-go/v7 v7.11.0/go.mod h1:WNSLxxBiXoGZtSfoiDKGTXu6pJJh8RGzj4AeNvSCWEs=
+golang.org/x/net v0.0.0-20161109213706-9ef22118a4b2 h1:kRStLwXqSK4OaM9shiquVM9+mlkaD2ZewLzOrkIdajM=
+golang.org/x/net v0.0.0-20161109213706-9ef22118a4b2/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
+golang.org/x/net v0.0.0-20190603091049-60506f45cf65 h1:+rhAzEzT3f4JtomfC371qB+0Ola2caSKcY69NUBZrRQ=
+golang.org/x/net v0.0.0-20190603091049-60506f45cf65/go.mod h1:HSz+uSET+XFnRR8LxR5pz3Of3rY3CfYBVs4xY44aLks=

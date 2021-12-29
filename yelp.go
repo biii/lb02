@@ -15,7 +15,7 @@ import (
 
 	"github.com/JustinBeckwith/go-yelp/yelp"
 	//"github.com/guregu/null"
-	"github.com/line/line-bot-sdk-go/linebot"
+	"github.com/line/line-bot-sdk-go/v7/linebot"
 )
 
 var o *yelp.AuthOptions

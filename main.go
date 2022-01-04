@@ -78,9 +78,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				case strings.HasPrefix(message.Text, "骰骰"):
 					outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "骰骰")))
 
-				case strings.HasPrefix(message.Text, "問問"):
-					outmsg.WriteString(CompareCheckTokens(message.Text))
-
 				case strings.Compare(message.Text, "測試") == 0:
 					outmsg.WriteString(message.ID)
 					outmsg.WriteString("\r\n")

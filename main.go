@@ -13,15 +13,15 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
-	"strings"
-	"bytes"
-	"math/rand"
-	"time"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/line/line-bot-sdk-go/v7/linebot"
 )
@@ -33,10 +33,7 @@ func main() {
 	var err error
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
 	log.Println("Bot:", bot, " err:", err)
-	
-	translate_init()
-	yelp_init()
-	
+
 	http.HandleFunc("/callback", callbackHandler)
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
@@ -63,47 +60,40 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				var lowerMsg = strings.ToLower(message.Text)
 
 				switch {
-					case strings.Compare(message.Text, "溫馨提醒") == 0:
-						outmsg.WriteString("<<<溫馨提醒>>>\r\n因為這個群很吵 -->\r\n右上角 可以 關閉提醒\r\n\r\n[同學會] 投票進行中 -->\r\n右上角 筆記本 可以進行投票\r\n\r\n[通訊錄] 需要大家的協助 -->\r\n右上角 筆記本 請更新自己的聯絡方式")
-					
-					case strings.HasSuffix(message.Text, "麼帥"):
-						outmsg.WriteString(GetHandsonText(message.Text))
+				case strings.Compare(message.Text, "溫馨提醒") == 0:
+					outmsg.WriteString("<<<溫馨提醒>>>\r\n因為這個群很吵 -->\r\n右上角 可以 關閉提醒\r\n\r\n[同學會] 投票進行中 -->\r\n右上角 筆記本 可以進行投票\r\n\r\n[通訊錄] 需要大家的協助 -->\r\n右上角 筆記本 請更新自己的聯絡方式")
 
-					case strings.Compare(lowerMsg, "ppap") == 0:
-						outmsg.WriteString(GetPPAPText())
+				case strings.HasSuffix(message.Text, "麼帥"):
+					outmsg.WriteString(GetHandsonText(message.Text))
 
-					case strings.Compare(message.Text, "123") == 0:
-						outmsg.WriteString(Get123Text())
+				case strings.Compare(lowerMsg, "ppap") == 0:
+					outmsg.WriteString(GetPPAPText())
 
-					case strings.HasPrefix(lowerMsg, "roll"):
-						outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "roll")))
-						
-					case strings.HasPrefix(message.Text, "骰骰"):
-						outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "骰骰")))
+				case strings.Compare(message.Text, "123") == 0:
+					outmsg.WriteString(Get123Text())
 
-					case strings.HasPrefix(message.Text, "翻翻"):
-						outmsg.WriteString(GetTransText(strings.TrimLeft(message.Text, "翻翻")))
-						
-					case strings.HasPrefix(message.Text, "吃吃"):
-						yelp_parse(bot, event.ReplyToken, locmap[GetID(event.Source)], strings.TrimLeft(message.Text, "吃吃"))
-						continue
-						
-					case strings.HasPrefix(message.Text, "問問"):
-						outmsg.WriteString(CompareCheckTokens(message.Text))
-						
-					case strings.Compare(message.Text, "測試") == 0:
-						outmsg.WriteString(message.ID)
-						outmsg.WriteString("\r\n")
-						outmsg.WriteString(event.Source.UserID)
-						outmsg.WriteString("\r\n")
-						outmsg.WriteString(event.Source.GroupID)
-						outmsg.WriteString("\r\n")
-						outmsg.WriteString(event.Source.RoomID)
-						
-					default:
-						continue
+				case strings.HasPrefix(lowerMsg, "roll"):
+					outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "roll")))
+
+				case strings.HasPrefix(message.Text, "骰骰"):
+					outmsg.WriteString(GetRandomNum(strings.TrimLeft(lowerMsg, "骰骰")))
+
+				case strings.HasPrefix(message.Text, "問問"):
+					outmsg.WriteString(CompareCheckTokens(message.Text))
+
+				case strings.Compare(message.Text, "測試") == 0:
+					outmsg.WriteString(message.ID)
+					outmsg.WriteString("\r\n")
+					outmsg.WriteString(event.Source.UserID)
+					outmsg.WriteString("\r\n")
+					outmsg.WriteString(event.Source.GroupID)
+					outmsg.WriteString("\r\n")
+					outmsg.WriteString(event.Source.RoomID)
+
+				default:
+					continue
 				}
-				
+
 				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(outmsg.String())).Do(); err != nil {
 					log.Print(err)
 				}
@@ -127,7 +117,7 @@ func GetID(source *linebot.EventSource) string {
 }
 
 func GetHandsonText(inText string) string {
-	var outmsg bytes.Buffer	
+	var outmsg bytes.Buffer
 	var outText bytes.Buffer
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(100)
@@ -143,7 +133,7 @@ func GetHandsonText(inText string) string {
 		return outText.String()
 	}
 	outmsg.WriteString("比較帥")
-	return outmsg.String()	
+	return outmsg.String()
 }
 
 func GetPPAPText() string {
